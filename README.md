@@ -48,9 +48,7 @@ In Vpp, thers are 3 types of message exchanges:
 
 <div align=center><img src="resources/eventworkflow.png"></div>
 <div align=center>Figure1 Interactions for event notification</div>
-
 For example, we will add a GTPU error indication event, this event is reported by VPP, and the APP client will do some post handling.
-
 <div align=center><img src="resources/eventsequence.png></div>
 <div align=center>Figure 2 Sequence for event notification</div>
 
