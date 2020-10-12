@@ -50,6 +50,8 @@ define cu_up_gtp_error_ind_event {
     u32 pid;
     vl_api_cu_up_event_type_t type;
     vl_api_cu_up_gtp_error_ind_t data;
+    u8 raw_msg_len;
+    u8 raw_msg_data[raw_msg_len];
 };
 
 autoreply define want_cu_up_gtp_error_ind_events {

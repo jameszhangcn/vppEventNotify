@@ -25,12 +25,15 @@
 #include <vppinfra/hash.h>
 #include <vppinfra/error.h>
 
+#define MAX_GTP_ERROR_IND_DATA_LEN (20)
+
 typedef struct {
     /* API message ID base */
     u16 msg_id_base;
 
     /* on/off switch for the periodic function */
     u8 periodic_timer_enabled;
+    u8 cu_up_event_timer_enabled;
     /* Node index, non-zero if the periodic process has been created */
     u32 periodic_node_index;
     u32 cu_up_event_node_index;

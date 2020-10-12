@@ -62,28 +62,6 @@ int testgovpp_enable_disable (testgovpp_main_t * tmp, u32 sw_if_index,
                             (uword)enable_disable);
   return rv;
 }
-#if 0
-int gtp_error_ind_enable_disable (testgovpp_main_t * tmp,
-                                   int enable_disable)
-{
-  //vnet_sw_interface_t * sw;
-  int rv = 0;
-  clib_warning ("gtp_error_ind_enable_disable enable_disable %d ",enable_disable);
-  testgovpp_create_timer_process (tmp);
-
-  vnet_feature_enable_disable ("device-input", "testgovpp",
-                               0, enable_disable, 0, 0);
-  clib_warning ("gtp_error_ind_enable_disable feature enable ");
-  /* Send an event to enable/disable the periodic scanner process */
-  /*
-  vlib_process_signal_event (tmp->vlib_main,
-                             tmp->periodic_node_index,
-                             TESTGOVPP_EVENT_PERIODIC_ENABLE_DISABLE,
-                            (uword)enable_disable);
-                            */
-  return rv;
-}
-#endif
 
 int gtp_error_ind_enable_disable (testgovpp_main_t * tmp, u32 sw_if_index,
                                    int enable_disable)
@@ -221,8 +199,7 @@ static void vl_api_want_cu_up_gtp_error_ind_events_t_handler (
     hash_set (vam->cu_up_gtp_error_ind_events_registration_hash, rp->client_index,
               rp - vam->cu_up_gtp_error_ind_events_registrations);       
               
-    //rv = gtp_error_ind_enable_disable (tmp, (int) (mp->enable_disable));
-    rv = testgovpp_enable_disable (tmp, 0,(int)mp->enable_disable);
+    rv = gtp_error_ind_enable_disable (tmp, 0, (int) (mp->enable_disable));
 reply:                                                                 
     REPLY_MACRO (VL_API_WANT_CU_UP_GTP_ERROR_IND_EVENTS_REPLY);           
 } 
