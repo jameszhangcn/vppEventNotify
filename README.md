@@ -46,12 +46,17 @@ In Vpp, thers are 3 types of message exchanges:
 	```
 	
 
-![image](resources/eventworkflow.png)
+<div align=center>![image](resources/eventworkflow.png)
 
-For example, we will add a GTP-U error indication event, this event is reported by VPP, and the APP client will do some post handling.
+Figure1 Interactions for event notification
+<div align=left>
 
-![image](resources/eventsequence.png)
+For example, we will add a GTPU error indication event, this event is reported by VPP, and the APP client will do some post handling.
 
+<div align=center>![image](resources/eventsequence.png)
+
+Figure 2 Sequence for event notification
+<div align=left>
 
 Code introduction:
 
@@ -86,17 +91,87 @@ Code introduction:
 
 Here is the steps:
 
-## 1 Add want_xxx in the .api file
+## 1 Add rpc service for cu_up_gtp_error_ind_events in the testgovpp.api, define the event msg struct, and the want*** struct.
 
-## 2 registration
+	service {
+	    rpc want_cu_up_gtp_error_ind_events returns want_cu_up_gtp_error_ind_events_reply events cu_up_gtp_error_ind_event;
+	};
 
-related code change:
+	define cu_up_gtp_error_ind_event {
+	    u32 client_index;
+	    u32 pid;
+	    vl_api_cu_up_event_type_t type;
+	    vl_api_cu_up_gtp_error_ind_t data;
+	    u8 raw_msg_len;
+	    u8 raw_msg_data[raw_msg_len];
+	};
+	
+	autoreply define want_cu_up_gtp_error_ind_events {
+	    u32 client_index;
+	    u32 context;
+	    bool enable_disable;
+	    u32 pid;
+	};
 
 
-```
-marco
-hash
-```
 
-## 3 User govpp as the client API
+## 2 Add a handler for the registration in testgovpp.c
+	
+	//pub_sub_handler(cu_up_gtp_error_ind_events,CU_UP_GTP_ERROR_IND_EVENTS)
+	static void vl_api_want_cu_up_gtp_error_ind_events_t_handler (                             
+	    vl_api_want_cu_up_gtp_error_ind_events_t *mp) {
 
+    	****
+
+    }     
+In api_helper_macros.h, it defines a MACRO function for pub_sub_handler, we will not use this template. Further more, we will add some specific handle in the want_xxx_handler.
+
+In the handler function, it save the client_index to vpe_api_main's xxx_registration_hash table.
+
+For the new registration_hash table, we need to add it to api_helper_macros.h. This is the only point which the VPP original code will be changed.
+
+	diff --git a/src/vlibapi/api_helper_macros.h b/src/vlibapi/api_helper_macros.h
+	index b19d4f90f..1a5071106 100644
+	--- a/src/vlibapi/api_helper_macros.h
+	+++ b/src/vlibapi/api_helper_macros.h
+	@@ -285,7 +285,8 @@ _(bfd_events)                                   \
+	_(l2_arp_term_events)                           \
+	_(ip6_ra_events)                                \
+	_(dhcp6_pd_reply_events)                        \
+	-_(dhcp6_reply_events)
+	+_(dhcp6_reply_events)                           \
+	+_(cu_up_gtp_error_ind_events)
+
+## 3 Send the event to client
+
+Refer to function send_cu_up_gtp_error_ind_event().
+
+Some key points:
+
+  * The _vl_msg_id  must be filled, and the testgovpp_main.msg_id_base should be added.
+  * Use the vl_api_send_msg() to send this event to registered clients.
+  * Since we defined a slice **raw_msg_data** in the event struct, and it's length is variable. When allocate the message memory, this additional length must be included as below:
+  * 
+		vl_api_cu_up_gtp_error_ind_event_t *mp;
+		int msg_size;
+		
+		msg_size = sizeof(*mp);
+		msg_size += raw_msg_len;
+		
+		mp=vl_msg_api_alloc(msg_size);
+		clib_memset(mp,0,msg_size);
+		mp->_vl_msg_id = ntohs(VL_API_CU_UP_GTP_ERROR_IND_EVENT + testgovpp_main.msg_id_base);
+		
+		mp->client_index = reg->client_index;
+
+## 4 Use govpp as the client API
+
+The GoVPP projects provides the API for communication with VPP from Go.
+
+Notes: 
+
+1. about the api.json, this file is auto generated during building of VPP. Just need copy the vpp/api/ folder to /usr/share/vpp/api/, and use this command to generate the golang header files.
+
+      ``` ./bin/binapi-generator --output-dir=./binapi  ```
+
+2. use go module and vendor to build with the govpp.
