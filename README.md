@@ -46,11 +46,11 @@ In Vpp, thers are 3 types of message exchanges:
 	```
 	
 
-![image](./resources/eventworkflow.png)
+![image](resources/eventworkflow.png)
 
 For example, we will add a GTP-U error indication event, this event is reported by VPP, and the APP client will do some post handling.
 
-![image](https://github.com/jameszhangcn/vppEventNotify/blob/main/resources/eventworkflow.png)
+![image](resources/eventsequence.png)
 
 
 Here is the steps:
