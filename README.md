@@ -53,6 +53,37 @@ For example, we will add a GTP-U error indication event, this event is reported 
 ![image](resources/eventsequence.png)
 
 
+Code introduction:
+
+	
+	.
+	|-- govpp
+	|   |-- simple_client
+	|   |-- simple_client.go
+	|   `-- testgovpp.api.json
+	|-- LICENSE
+	|-- README.md
+	|-- resources
+	|   |-- eventsequence.png
+	|   |-- eventworkflow.png
+	|   `-- VPP.drawio
+	`-- vpp2005
+	    |-- api_helper_macros.h
+	    `-- testgovpp
+	        |-- CMakeLists.txt
+	        |-- node.c
+	        |-- setup.pg
+	        |-- testgovpp.api
+	        |-- testgovpp.c
+	        |-- testgovpp.h
+	        |-- testgovpp_periodic.c
+	        `-- testgovpp_test.c
+	
+
+* folder govpp is for the go client code, it regist an event to VPP.
+* folder resources is for the diagrams.
+* vpp2005 is the code changes in VPP, and **testgovpp** is the added plugin. 
+
 Here is the steps:
 
 ## 1 Add want_xxx in the .api file
