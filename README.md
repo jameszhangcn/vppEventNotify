@@ -46,17 +46,15 @@ In Vpp, thers are 3 types of message exchanges:
 	```
 	
 
-<div align=center>![image](resources/eventworkflow.png)
-
-Figure1 Interactions for event notification
-<div align=left>
+<div align=center>![image](resources/eventworkflow.png)</div>
+<div align=center>Figure1 Interactions for event notification</div>
 
 For example, we will add a GTPU error indication event, this event is reported by VPP, and the APP client will do some post handling.
 
-<div align=center>![image](resources/eventsequence.png)
+<div align=center>![image](resources/eventsequence.png)</div>
 
-Figure 2 Sequence for event notification
-<div align=left>
+<div align=center>Figure 2 Sequence for event notification</div>
+
 
 Code introduction:
 
