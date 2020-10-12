@@ -1,5 +1,6 @@
 # How to add a event in VPP plugin
-Note: this 
+Note: this verify base on the VPP version 20.05
+
 In Vpp, thers are 3 types of message exchanges:
 
 
@@ -45,7 +46,15 @@ In Vpp, thers are 3 types of message exchanges:
 	```
 	
 
-![](./resources/VPP-eventWorkFlow.PNG)
+![](resources/VPP-eventWorkFlow.PNG)
+
+For example, we will add a GTP-U error indication event, this event is reported by VPP, and the APP client will do some post handling.
+
+![](resources/VPP-eventSequence.PNG)
+
+
+Here is the steps:
+
 ## 1 Add want_xxx in the .api file
 
 ## 2 registration
