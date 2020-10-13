@@ -1,6 +1,11 @@
-# How to add a event in VPP plugin
+# How to add event notification in VPP plugin
 Note: this verify base on the VPP version 20.05
 
+## CheckList:
+
+ - [x] VPP structure
+ - [x] Event scheme
+## Scope
 In this document, we will talk about adding event notification in VPP, and use the govpp client to interaction with it.
 
 In Vpp, thers are 3 types of message exchanges:
@@ -53,16 +58,14 @@ and provide many services.
 
 <div align=center> <img src="resources/eventworkflow.png"></div>
 
- <center> <font color=red size=21>Figure1 Interactions for event notification </font></center>
+ <center> <font color=blue size=10>Figure1 Interactions for event notification </font></center>
 
-<div align=center><img src="resources/eventsequence.png></div>
 
- <center> Figure 2 Sequence for event notification </center>
 
 For example, we will add a GTPU error indication event, 
 this event is reported by VPP, and the APP client will do some post handling.
 
-Code introduction:
+## Code introduction:
 
 	
 	.
@@ -93,9 +96,9 @@ Code introduction:
 * folder resources is for the diagrams.
 * vpp2005 is the code changes in VPP, and **testgovpp** is the added plugin. 
 
-Here is the steps:
+## Here is the steps:
 
-## 1 Add rpc service for cu_up_gtp_error_ind_events in the testgovpp.api, define the event msg struct, and the want*** struct.
+### 1 Add rpc service for cu_up_gtp_error_ind_events in the testgovpp.api, define the event msg struct, and the want*** struct.
 
 	service {
 	    rpc want_cu_up_gtp_error_ind_events returns want_cu_up_gtp_error_ind_events_reply events cu_up_gtp_error_ind_event;
@@ -119,7 +122,7 @@ Here is the steps:
 
 
 
-## 2 Add a handler for the registration in testgovpp.c
+### 2 Add a handler for the registration in testgovpp.c
 	
 	//pub_sub_handler(cu_up_gtp_error_ind_events,CU_UP_GTP_ERROR_IND_EVENTS)
 	static void vl_api_want_cu_up_gtp_error_ind_events_t_handler (                             
@@ -146,7 +149,7 @@ For the new registration_hash table, we need to add it to api_helper_macros.h. T
 	+_(dhcp6_reply_events)                           \
 	+_(cu_up_gtp_error_ind_events)
 
-## 3 Send the event to client
+### 3 Send the event to client
 
 Refer to function send_cu_up_gtp_error_ind_event().
 
@@ -168,7 +171,7 @@ Some key points:
 		
 		mp->client_index = reg->client_index;
 
-## 4 Use govpp as the client API
+### 4 Use govpp as the client API
 
 The GoVPP projects provides the API for communication with VPP from Go.
 
@@ -179,3 +182,10 @@ Notes:
       ``` ./bin/binapi-generator --output-dir=./binapi  ```
 
 2. use go module and vendor to build with the govpp.
+
+## Detail sequence diagram
+
+<font size=10>The sequence diagram:</font>
+
+<center>![](resources/eventsequence.png)</center>
+<center> Figure 2 Sequence for event notification </center>
