@@ -51,11 +51,11 @@ and provide many services.
 	```
 	
 
-<div align=center><img src="resources/eventworkflow.png"></div>
-<div align=center>Figure1 Interactions for event notification</div>
+<div align=center> <img src="resources/eventworkflow.png"></div>
+<center> <font color=red size=21>Figure1 Interactions for event notification </font></center>
 
 <div align=center><img src="resources/eventsequence.png></div>
-<div align=center>Figure 2 Sequence for event notification</div>
+<center>Figure 2 Sequence for event notification</center>
 
 For example, we will add a GTPU error indication event, 
 this event is reported by VPP, and the APP client will do some post handling.
