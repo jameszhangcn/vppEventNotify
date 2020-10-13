@@ -198,15 +198,15 @@ Notes:
 
 ### Note : remember to add the "interactive" in the VPP startup.conf, this is for the clib_warning logs
 
-![](./resources/demo_govpp_1.png)
+![](./resources/demo_govpp_1.PNG)
 
 This is the logs from govpp client side, it use the binary API to query the VPP version.
 
-![](./resources/demo_govpp_2.png)
+![](./resources/demo_govpp_2.PNG)
 
 First client subscribe this event to VPP, then it will get the reported event.
 
-![](./resources/demo_vpp.png)
+![](./resources/demo_vpp.PNG)
 The VPP send the gtpu event every 10s. 
 
 ## Reference
