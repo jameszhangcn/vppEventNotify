@@ -5,6 +5,7 @@ Note: this verify base on the VPP version 20.05
 
  - [x] VPP structure
  - [x] Event scheme
+ - [x] govpp client
 ## Scope
 In this document, we will talk about adding event notification in VPP, and use the govpp client to interaction with it.
 
@@ -187,5 +188,27 @@ Notes:
 
 <font size=10>The sequence diagram:</font>
 
-<center>![](resources/eventsequence.png)</center>
+![](./resources/eventsequence.png)
 <center> Figure 2 Sequence for event notification </center>
+
+## Demo
+
+### Note : remember to add the "interactive" in the VPP startup.conf, this is for the clib_warning logs
+
+![](./resources/demo_govpp_1.png)
+
+This is the logs from govpp client side, it use the binary API to query the VPP version.
+
+![](./resources/demo_govpp_2.png)
+
+First client subscribe this event to VPP, then it will get the reported event.
+
+![](./resources/demo_vpp.png)
+The VPP send the gtpu event every 10s. 
+
+## Reference
+
+1. https://github.com/FDio/govpp
+2. https://git.fd.io/
+3. https://github.com/FDio/vpp
+
