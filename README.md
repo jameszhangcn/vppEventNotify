@@ -52,9 +52,11 @@ and provide many services.
 	
 
 <div align=center> <img src="resources/eventworkflow.png"></div>
+
 <center> <font color=red size=21>Figure1 Interactions for event notification </font></center>
 
 <div align=center><img src="resources/eventsequence.png></div>
+
 <center>Figure 2 Sequence for event notification</center>
 
 For example, we will add a GTPU error indication event, 
