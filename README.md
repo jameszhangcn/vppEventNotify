@@ -93,7 +93,10 @@ this event is reported by VPP, and the APP client will do some post handling.
 	        `-- testgovpp_test.c
 	
 
-* folder govpp is for the go client code, it regist an event to VPP.
+* folder govpp is for the go client code, it regist an event to VPP. testgovpp.api.json is generated when building VPP. And it is used to generate the header file for govpp.
+	
+    ```./bin/binapi-generator --output-dir=./binapi```
+
 * folder resources is for the diagrams.
 * vpp2005 is the code changes in VPP, and **testgovpp** is the added plugin. 
 
@@ -195,15 +198,15 @@ Notes:
 
 ### Note : remember to add the "interactive" in the VPP startup.conf, this is for the clib_warning logs
 
-![](./resources/demo_govpp_1.PNG)
+![](./resources/demo_govpp_1.png)
 
 This is the logs from govpp client side, it use the binary API to query the VPP version.
 
-![](./resources/demo_govpp_2.PNG)
+![](./resources/demo_govpp_2.png)
 
 First client subscribe this event to VPP, then it will get the reported event.
 
-![](./resources/demo_vpp.PNG)
+![](./resources/demo_vpp.png)
 The VPP send the gtpu event every 10s. 
 
 ## Reference
