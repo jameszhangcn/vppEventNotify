@@ -1,6 +1,8 @@
 # How to add a event in VPP plugin
 Note: this verify base on the VPP version 20.05
 
+In this document, we will talk about adding event notification in VPP, and use the govpp client to interaction with it.
+
 In Vpp, thers are 3 types of message exchanges:
 
 
@@ -30,6 +32,9 @@ In Vpp, thers are 3 types of message exchanges:
 	the service definition.
 
 
+Anyting we mentioned here is in the scope of VPP binary API, VPP is the Server, 
+and provide many services.
+
 	### Services
 	The service statement defines the relationship between messages.
 	For request/response and dump/details messages it ties the
@@ -48,10 +53,12 @@ In Vpp, thers are 3 types of message exchanges:
 
 <div align=center><img src="resources/eventworkflow.png"></div>
 <div align=center>Figure1 Interactions for event notification</div>
-For example, we will add a GTPU error indication event, this event is reported by VPP, and the APP client will do some post handling.
+
 <div align=center><img src="resources/eventsequence.png></div>
 <div align=center>Figure 2 Sequence for event notification</div>
 
+For example, we will add a GTPU error indication event, 
+this event is reported by VPP, and the APP client will do some post handling.
 
 Code introduction:
 
